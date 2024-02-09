@@ -72,7 +72,8 @@ class PacketBuffer {
   virtual int NextHigherTimestamp(uint32_t timestamp,
                                   uint32_t* next_timestamp) const;
 
-  virtual int NextLowerTimestamp(uint32_t timestamp,
+  virtual int NextLowerTimestamp(int16_t sequence_number,
+                                 uint32_t timestamp,
                                  uint32_t* next_timestamp,
                                  uint32_t* duration) const;
 
@@ -137,6 +138,8 @@ class PacketBuffer {
 
   virtual void LogPacketList() const;
 
+  virtual bool NewestSequenceNumber(uint16_t *sequence_number) const;
+
  private:
   void LogPacketDiscarded(int codec_level);
 
@@ -144,6 +147,8 @@ class PacketBuffer {
   PacketList buffer_;
   const TickTimer* tick_timer_;
   StatisticsCalculator* stats_;
+  uint16_t newest_sequence_number_;
+  uint64_t insert_count_;
 };
 
 }  // namespace webrtc
