@@ -467,6 +467,8 @@ int16_t WebRtcOpus_SetBandwidth(OpusEncInst* inst, int32_t bandwidth) {
 }
 
 int16_t WebRtcOpus_SetDredDuration(OpusEncInst* inst, int32_t duration) {
+  // RingRTC change to log opus setters
+  RTC_LOG(LS_INFO) << "WebRtcOpus_SetDredDuration " << duration;
   if (inst) {
     return ENCODER_CTL(inst, OPUS_SET_DRED_DURATION(duration));
   } else {

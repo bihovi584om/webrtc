@@ -1019,6 +1019,7 @@ bool AudioEncoderOpusImpl::Configure(const webrtc::AudioEncoder::Config& config)
   // I don't think any of the below are necessary, but the above is, so we might as well set these.
   config_.bitrate_bps = config.initial_bitrate_bps;
   config_.fec_enabled = config.enable_fec;
+  config_.dred = config.dred;
   config_.cbr_enabled = config.enable_cbr;
   config_.complexity = config.complexity;
   config_.low_rate_complexity = config.complexity;
@@ -1059,6 +1060,12 @@ bool AudioEncoderOpusImpl::Configure(const webrtc::AudioEncoder::Config& config)
     }
   }
   RTC_LOG(LS_INFO) << "Successfully configured OPUS to enable_fec=" << config.enable_fec;
+
+  if (WebRtcOpus_SetDredDuration(inst_, config.dred) == -1) {
+    RTC_LOG(LS_WARNING) << "Failed to configure OPUS DRED";
+    return false;
+  }
+  RTC_LOG(LS_INFO) << "Successfully configured OPUS DRED=" << config.dred;
 
   if (config.enable_dtx) {
     if (WebRtcOpus_EnableDtx(inst_) == -1) {

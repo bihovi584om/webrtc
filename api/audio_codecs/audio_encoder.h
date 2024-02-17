@@ -152,6 +152,9 @@ class AudioEncoder {
 
     // In-band FEC is enabled by default
     bool enable_fec = true;
+
+    // DRED duration (1 to 100), 0 to disable
+    int32_t dred = 0;
   };
 
   virtual ~AudioEncoder() = default;
